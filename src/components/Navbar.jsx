@@ -1,5 +1,6 @@
-import { Box, Button, Flex, Heading, HStack, Spacer, Input } from "@chakra-ui/react";
+import { Box, Flex, Heading } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+
 
 export default function Navbar() {
   return (
@@ -9,15 +10,6 @@ export default function Navbar() {
               <Heading as="h4" color="green.500">TokpedPlay</Heading>
           </Link>
         </Box>
-        <Spacer />
-
-        <HStack spacing="20px">
-            <Button colorScheme="green" borderRadius="0px">
-              <Link to="/login">
-                Login
-              </Link>
-            </Button>
-        </HStack>
     </Flex>
     // <Flex bg="gray.200" justify="space-around">
     //     <Box w="150px" h="50px" bg="red">1</Box>

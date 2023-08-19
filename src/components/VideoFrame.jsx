@@ -16,10 +16,10 @@ export default function VideoFrame() {
     }, []);
 
     return (
-        <GridItem as="main" colSpan="4" bg="white" maxHeight="100vh">
-            <Box minHeight="100vh" paddingX="30px">
+        <GridItem colSpan="5" bg="white" border="8px solid" borderColor="green.500" boxShadow="8px 8px" m="30px" paddingY="30px">
+            <Box maxHeight="-webkit-fit-content" paddingX="30px">
                 <Heading marginBottom="20px">{videos.title}</Heading>
-                <ReactPlayer url={videos.urlVideo} width="100%" playing={true} controls={true}/>
+                <ReactPlayer url={videos.urlVideo} width="100%" controls={true}/>
                 <Text marginTop="20px">{videos.desc}</Text>
             </Box>
         </GridItem>

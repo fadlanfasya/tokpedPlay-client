@@ -9,8 +9,6 @@ import {
 import RootLayout from './layouts/RootLayout';
 import Home from './pages/Home';
 import VideoDetail from './pages/VideoDetail';
-import Login from './pages/Login';
-import Register from './pages/Register';
 
 // import './App.css';
 
@@ -20,8 +18,6 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootLayout />}>
       <Route index element={<Home />} />
       <Route path="/video/:_id" element={<VideoDetail />}/>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
     </Route>
   )
 )

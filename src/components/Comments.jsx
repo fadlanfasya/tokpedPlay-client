@@ -1,79 +1,24 @@
-import { Box, Button, Container, HStack, Input, VStack } from "@chakra-ui/react";
-import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
-import Comment from "./Comment";
+import { Box, Flex, Text } from '@chakra-ui/react';
+import React from 'react'
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-const Comments = ({socket}) => {
-  const videoId = useParams();
-  const [comments, setComments] = useState([]);
-  const commentRef = useRef();
-  const [userId, setUserId] = useState("");
+export default function Comments() {
+    const {_id} = useParams();
+    const [videos, setVideos] = useState([]);
 
-  const sendComment = () => {
-    if (socket) {
-      socket.emit("chatboxComment", {
-        videoId,
-        comment: commentRef.current.value,
-      });
-      commentRef.current.value = "";
-    }
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("CC_TOKEN");
-    if (token) {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      setUserId(payload.id);
-    }
-    if (socket) {
-      socket.on("newComment", (comment) => {
-        const newComment = [...comments, comment];
-        setComments(newComment);
-      });
-    }
-  }, [comments]);
-
-  useEffect(() => {
-    if (socket) {
-      socket.emit("inRoom", { videoId });
-    }
-
-    return () => {
-      if (socket) {
-        socket.emit("outRoom", { videoId });
-      }
-    }
-  }, []);
+    useEffect(() => {
+        fetch(`https://tokpedplay.up.railway.app/api/videos/${_id}`)
+        .then(res => res.json())
+        .then(videos => setVideos(videos.commentId))
+        .catch((err) => console.error(err));
+    }, []);
 
   return (
-    <Container>
-      <VStack>
-        {comments.map((comment, id) => (
-          <Box key={id} className="comment">
-            <span
-              className={
-                userId === comment.userId ? "ownMessage" : "otherMessage"
-              }
-            >
-              {comment.name}
-            </span>{" "}
-            {comment.comment}
-          </Box>
+    <Box margin="20px" padding="20px" border="1px solid">
+        {videos.map(video => (
+            <Text fontWeight="bold">{video.username}: <span>{video.comment}</span></Text>
         ))}
-      </VStack>
-      <HStack>
-        <Box>
-          <Input 
-            type="text"
-            name="comment"
-            placeholder="Comment"
-            ref={commentRef}
-          />
-        </Box>
-        <Button onClick={sendComment}>Send</Button>
-      </HStack>
-    </Container>
-  );
-};
-
-export default Comments;
+    </Box>
+  )
+}
